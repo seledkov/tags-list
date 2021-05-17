@@ -29,34 +29,21 @@ const TagsList = (props: any) => {
   const [jsxArr, setJsxArr] = useState<{}[]>(tagItemsList);
   const [index, setIndex] = useState<number>(tagItemsList.length);
   const [renderArray, setRenderArray] = useState<{}[]>();
+
   function keyHandler(e: any) {
-    if (e.key === 'ArrowLeft') {
-      setIndex((index) => {
-        if (index > 0) {
-          console.log('key handler <-- ', index);
-          return index - 1;
-        }
-        console.log('left fail');
-        return index;
-      });
-    } else if (e.key === 'ArrowRight') {
-      setIndex((index) => {
-        if (index < jsxArr.length) {
-          console.log('key handler --> ', index);
-          return index + 1;
-        }
-        console.log('right fail');
-        return index;
-      });
+    if (e.key === 'ArrowLeft' && index > 0) {
+      setIndex((index) => index - 1);
+    } else if (e.key === 'ArrowRight' && index < jsxArr.length) {
+      setIndex((index) => index + 1);
     }
   }
+
   useEffect(() => {
     const mutableArr = [...jsxArr];
     mutableArr.splice(index, 0, inputTag);
     setRenderArray(mutableArr);
   }, [index, jsxArr]);
 
-  // splice(index - 1, 1, mutableArr[index]
   console.log('component ', index);
   return (
     <div className='tag-list'>
@@ -66,7 +53,6 @@ const TagsList = (props: any) => {
       </div>
       {renderArray}
       {/* {jsxArr} */}
-      {/* <Dadata onAddTag={props.onAddTag} id='input' /> */}
     </div>
   );
 };
