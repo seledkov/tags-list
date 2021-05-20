@@ -4,55 +4,37 @@ import Dadata from './Dadata';
 import './TagsList.css';
 
 const TagsList = (props: any) => {
-  const inputTag = (
-    <Dadata onAddTag={props.onAddTag} onKeyDown={keyHandler} id='input' />
-  );
+  const inputTag = <Dadata onAddTag={props.onAddTag} onKeyDown={keyHandler} id='input' />;
+
   const tagItemsList = props.tagsList.map((item: string, index: number) => {
     return (
-      <TagItem
-        address={item}
-        key={Math.random()}
-        id={index}
-        onDeleteTag={props.onDeleteTag}
-      />
+      <TagItem address={item} key={Math.random()} id={index} onDeleteTag={props.onDeleteTag} />
     );
   });
-  // const inputTag = <input type='text' onKeyDown={keyHandler} />;
-  const testArr = [
-    <div>1</div>,
-    <div>2</div>,
-    <div>3</div>,
 
-    // <button onCLick={setIndex(index+1)}>meme</button>,
-    // <input type='text' onKeyDown={keyHandler} />,
-  ];
-  const [jsxArr, setJsxArr] = useState<{}[]>(tagItemsList);
-  const [index, setIndex] = useState<number>(tagItemsList.length);
-  const [renderArray, setRenderArray] = useState<{}[]>();
+  const [index, setIndex] = useState<number>(props.tagsList.length);
+  const [renderArray, setRenderArray] = useState<{}[]>(tagItemsList);
 
   function keyHandler(e: any) {
     if (e.key === 'ArrowLeft' && index > 0) {
       setIndex((index) => index - 1);
-    } else if (e.key === 'ArrowRight' && index < jsxArr.length) {
+    } else if (e.key === 'ArrowRight' && index < props.tagsList.length) {
       setIndex((index) => index + 1);
     }
   }
-
   useEffect(() => {
-    const mutableArr = [...jsxArr];
+    const mutableArr = [...tagItemsList];
     mutableArr.splice(index, 0, inputTag);
     setRenderArray(mutableArr);
-  }, [index, jsxArr]);
+  }, [index, props.tagsList]);
 
   console.log('component ', index);
+
   return (
     <div className='tag-list'>
-      {/* {props.tagsList.length > 0 ? tagItemsList : null} */}
-      <div>
-        ---------- Press key right or left for change input position ----------
-      </div>
+      {/* {tagItemsList} */}
+      <div>---------- Press key right or left for change input position ----------</div>
       {renderArray}
-      {/* {jsxArr} */}
     </div>
   );
 };

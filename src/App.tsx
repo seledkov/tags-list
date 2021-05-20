@@ -1,39 +1,27 @@
 import React, { useState } from 'react';
 import './App.css';
 import WithClass from './HOC/WithClassName';
-import Dadata from './components/Dadata/Dadata';
 import TagList from './components/Dadata/TagsList';
 
-const startArr: string[] = ['spb', 'moskov'];
+const App: React.FC = () => {
+  const startArr = ['val1', 'val2'];
+  const [tagsList, setTagsList] = useState<string[]>(startArr);
 
-// ========== App ==============
-const App: React.FC = (props: any) => {
-  const [tagsList, setTagList] = useState(startArr);
-
-  const addTagHandler = (tag: any) => {
-    const newTag: string = tag.value;
-    const mirrorTagsList: string[] = [...tagsList, newTag];
-    setTagList(mirrorTagsList);
+  const addTagHandler = (userInput: any) => {
+    const newTag: string = userInput.value;
+    setTagsList((prevState) => {
+      return [...prevState, newTag];
+    });
   };
 
   const deleteTagHandler = (index: number) => {
-    const mutateTagsList = [...tagsList];
-    mutateTagsList.splice(index, 1);
-    setTagList(mutateTagsList);
-  };
-  let TagValue: string = '';
-  const saveTagValueHandler = (value: string) => {
-    TagValue = value;
+    const mutatedTagsList = [...tagsList];
+    mutatedTagsList.splice(index, 1);
+    setTagsList(mutatedTagsList);
   };
   return (
     <WithClass className='App'>
-      <TagList
-        tagsList={tagsList}
-        onDeleteTag={deleteTagHandler}
-        onSaveTagValue={saveTagValueHandler}
-        onAddTag={addTagHandler}
-      />
-      {/* <Dadata onAddTag={addTagHandler} /> */}
+      <TagList tagsList={tagsList} onDeleteTag={deleteTagHandler} onAddTag={addTagHandler} />
     </WithClass>
   );
 };
